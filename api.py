@@ -5,6 +5,7 @@ Exposes the crawler functionality through HTTP endpoints.
 
 import os
 import sys
+from waitress import serve
 from flask import Flask
 from flask_restx import Api, Resource, fields
 from flask_cors import CORS
@@ -222,4 +223,5 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     
     # Run the Flask app
-    app.run(host='0.0.0.0', port=port, debug=False)
+    serve(app, host='0.0.0.0', port=port)
+    # app.run(host='0.0.0.0', port=port)
