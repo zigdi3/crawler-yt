@@ -218,6 +218,9 @@ def health_check():
     """Simple health check endpoint."""
     return jsonify({'status': 'ok', 'service': 'YouTube Comment Crawler API'})
 
+def create_app():
+   return app
+   
 if __name__ == '__main__':
     # Get port from environment variable or use default
     port = int(os.environ.get('PORT', 5000))
