@@ -157,6 +157,49 @@ class YouTubeCommentCrawler:
                 
         return results
 
+    def get_channel_id_from_username(self, username):
+        """
+        Get channel ID from a YouTube username/handle
+
+        Args:
+            username (str): YouTube channel username or handle
+
+        Returns:
+            str: Channel ID if found, None otherwise
+        """
+        try:
+            # Remove @ symbol if present
+            if username.startswith('@'):
+                username = username[1:]
+
+            # Try to find channel by username
+            request = self.api.youtube.channels().list(
+                part="id",
+                forUsername=username
+            )
+            response = request.execute()
+
+            # If found by username
+            if response.get('items'):
+                return response['items'][0]['id']
+
+            # If not found by username, try to find by handle
+            request = self.api.youtube.search().list(
+                part="snippet",
+                q=f"@{username}",
+                type="channel",
+                maxResults=1
+            )
+            response = request.execute()
+
+            if response.get('items'):
+                return response['items'][0]['snippet']['channelId']
+
+            return None
+        except Exception as e:
+            print(f"Error getting channel ID for username {username}: {str(e)}")
+            return None
+
 
 def parse_arguments():
     """Parse command-line arguments."""
