@@ -448,6 +448,13 @@ class CrawlCommentsByUsername(Resource):
         except Exception as e:
             api.abort(500, str(e))
 
+def create_app():
+    app = Flask(__name__)
+    CORS(app)
+    api = Api(app, version='1.0', title='YouTube Comment API',
+              description='A simple API to fetch YouTube comments')
+    return app
+
 if __name__ == '__main__':
     # Get port from environment variable or use default
     port = int(os.environ.get('PORT', 5000))
